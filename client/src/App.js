@@ -74,7 +74,7 @@ function App() {
           } else return project;
         }));
       }).catch(err => console.log(err));
-    } else {
+    } else if(isEditingAction.id !== 0) {
       axios.put(baseUrl + '/api/actions/' + isEditingAction.id, actionForm).then(response => {
         const action = response.data;
         setProjects(projects.map(project => {
