@@ -12,3 +12,32 @@ I need this code, just don't know where, perhaps should make some middleware, do
 
 Go code!
 */
+require('dotenv').config();
+
+const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
+
+const server = express();
+
+server.use(helmet());
+server.use(logger);
+server.use(express.json());
+server.use(cors());
+server.use('/api/projects', './projects/projectsRouter');
+server.use('/api/actions', './actions/actionsRouter');
+
+server.get('/', (req, res) => {
+  res.status(200).json({ message: "https://www.youtube.com/watch?v=d-diB65scQU" });
+});
+
+//custom middleware
+function logger(req, res, next) {
+  console.log(req.method, req.url, Date.now())
+  next();
+};
+
+const port = process.env.PORT || 4000;
+server.listen(port, () => {
+  console.log('Listening at port', port);
+})
