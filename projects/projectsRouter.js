@@ -18,6 +18,12 @@ router.get('/:id', validateProjectId, (req, res) => {
   res.status(200).json(req.project);
 });
 
+router.get('/:id/actions', validateProjectId, (req, res, next) => {
+  Projects.getProjectActions(req.project.id).then(actions => {
+    res.status(200).json(actions);
+  }).catch(next);
+});
+
 router.post('/', validateProjectsBody, (req, res, next) => {
   const { name, description, completed } = req.body;
   Projects.insert({ name, description, completed }).then(project => {
