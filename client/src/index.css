@@ -87,9 +87,9 @@ p {
   justify-content: space-between;
 }
 
-.col4 {
-  max-width: calc((100% / 4) - 20px);
-  flex-basis: calc((100% / 4) - 20px);
+.col3 {
+  max-width: calc((100% / 3) - 20px);
+  flex-basis: calc((100% / 3) - 20px);
   margin-bottom: 20px;
   background: #333;
 }

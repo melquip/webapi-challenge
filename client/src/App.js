@@ -8,7 +8,9 @@ const initialProjectFormState = {
 }
 
 const initialActionFormState = {
-  text: "",
+  description: "",
+  notes: "",
+  completed: false
 }
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
 
   useEffect(() => {
     axios.get(baseUrl + '/api/projects').then(response => {
+      console.log(response.data);
       setProjects(response.data);
     }).catch(err => console.log(err));
   }, []);
@@ -76,17 +79,20 @@ function App() {
       <div className="flex">
         {
           projects ? projects.map(project => (
-            <div key={project.id} className="col col4">
+            <div key={project.id} className="col col3">
               <p>ID: {project.id}</p>
               <p>Name: {project.name}</p>
+              <p>Description: {project.description}</p>
               <button className="editProject" onClick={editProject(project.id)}>Edit</button>
               <button className="removeProject" onClick={removeProject(project.id)}>Remove</button>
               <h2>Actions</h2>
               <div className="flex">
                 {
-                  project.posts ? project.posts.map(post => (
+                  project.actions ? project.actions.map(action => (
                     <div className="col col1">
-                      <p>ID: {post.id}</p>
+                      <p>ID: {action.id}</p>
+                      <p>Description: {action.description}</p>
+                      <p>Notes: {action.notes}</p>
                       {/* <p>Text: {post.text}</p> */}
                       {/* <button className="editPost" onClick={editPost(post.id, project.id)}>Edit</button> */}
                       {/* <button className="removePost" onClick={removePost(post.id, project.id)}>Remove</button> */}
