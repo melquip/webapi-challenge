@@ -9,6 +9,10 @@ router.get('/', (req, res, next) => {
   }).catch(next);
 });
 
+router.get('/:id', validateActionId, (req, res, next) => {
+  res.status(200).json(req.action);
+});
+
 router.put('/:id', validateActionId, validateActionsAtLeastOneBody, (req, res, next) => {
   const { description, notes, completed } = req.body;
   Actions.update(req.action.id, { description, notes, completed }).then(action => {
@@ -25,7 +29,10 @@ router.delete('/:id', validateActionId, (req, res, next) => {
 function validateActionsAtLeastOneBody(req, res, next) {
   const { description, notes, completed } = req.body;
   if (!description && !notes && typeof completed === 'undefined') {
-    res.status(400).json({ message: "Please provide the necessary name, description and completed fields!" });
+    res.status(400).json({ message: "Please provide one of these fields to change: description, notes or completed." });
+  }
+  if (description.length > 128) {
+    res.status(400).json({ message: "Description is too long!" });
   }
   next();
 }

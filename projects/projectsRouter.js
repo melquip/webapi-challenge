@@ -10,6 +10,10 @@ router.get('/', (req, res, next) => {
   }).catch(next);
 });
 
+router.get('/:id', validateProjectId, (req, res) => {
+  res.status(200).json(req.project);
+});
+
 router.post('/', validateProjectsBody, (req, res, next) => {
   const { name, description, completed } = req.body;
   Projects.insert({ name, description, completed }).then(project => {
@@ -45,7 +49,7 @@ router.delete('/:id', validateProjectId, (req, res, next) => {
 function validateProjectsBody(req, res, next) {
   const { name, description, completed } = req.body;
   if (!name || !description) {
-    res.status(400).json({ message: "Please provide the required name, description fields!" });
+    res.status(400).json({ message: "Please provide the required name and description fields!" });
   }
   next();
 }
@@ -53,7 +57,7 @@ function validateProjectsBody(req, res, next) {
 function validateActionsBody(req, res, next) {
   const { description, notes, completed } = req.body;
   if (!name || !description) {
-    res.status(400).json({ message: "Please provide the required description, notes fields!" });
+    res.status(400).json({ message: "Please provide the required description and notes fields!" });
   }
   if (description.length > 128) {
     res.status(400).json({ message: "Description is too long!" });
