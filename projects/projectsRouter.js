@@ -6,7 +6,11 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
   Projects.get().then(projects => {
-    res.status(200).json(projects);
+    let projectsPostsPromises = projects.map(project => Projects.getProjectActions(project.id));
+    Promise.all(projectsPostsPromises).then(projectsPostsLists => {
+      const projectsWithPosts = projects.map((project, i) => ({ ...project, actions: projectsPostsLists[i] }));
+      res.status(200).json(projectsWithPosts);
+    }).catch(next);
   }).catch(next);
 });
 
