@@ -38,7 +38,7 @@ server.get('/', (req, res) => {
 function logger(req, res, next) {
   console.log(req.method, req.url, Date.now())
   next();
-};
+}
 
 const port = process.env.PORT || 4000;
 server.listen(port, () => {
