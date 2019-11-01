@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
   }).catch(next);
 });
 
-router.get('/:id', validateActionId, (req, res, next) => {
+router.get('/:id', validateActionId, (req, res) => {
   res.status(200).json(req.action);
 });
 
@@ -21,7 +21,7 @@ router.put('/:id', validateActionId, validateActionsAtLeastOneBody, (req, res, n
 });
 
 router.delete('/:id', validateActionId, (req, res, next) => {
-  Actions.remove(req.action.id).then(deleted => {
+  Actions.remove(req.action.id).then(() => {
     res.status(200).json(req.action);
   }).catch(next);
 });

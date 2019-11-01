@@ -41,13 +41,13 @@ router.put('/:id', validateProjectId, validateProjectsAtLeastOneBody, (req, res,
 });
 
 router.delete('/:id', validateProjectId, (req, res, next) => {
-  Projects.remove(req.project.id).then(deleted => {
+  Projects.remove(req.project.id).then(() => {
     res.status(200).json(req.project);
   }).catch(next);
 });
 
 function validateProjectsBody(req, res, next) {
-  const { name, description, completed } = req.body;
+  const { name, description } = req.body;
   if (!name || !description) {
     res.status(400).json({ message: "Please provide the required name and description fields!" });
   }
@@ -55,8 +55,8 @@ function validateProjectsBody(req, res, next) {
 }
 
 function validateActionsBody(req, res, next) {
-  const { description, notes, completed } = req.body;
-  if (!name || !description) {
+  const { description, notes } = req.body;
+  if (!description || !notes) {
     res.status(400).json({ message: "Please provide the required description and notes fields!" });
   }
   if (description.length > 128) {
