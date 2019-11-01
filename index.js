@@ -20,12 +20,15 @@ const cors = require('cors');
 
 const server = express();
 
+const projectsRouter = require('./projects/projectsRouter');
+const actionsRouter = require('./actions/actionsRouter');
+
 server.use(helmet());
 server.use(logger);
 server.use(express.json());
 server.use(cors());
-server.use('/api/projects', './projects/projectsRouter');
-server.use('/api/actions', './actions/actionsRouter');
+server.use('/api/projects', projectsRouter);
+server.use('/api/actions', actionsRouter);
 
 server.get('/', (req, res) => {
   res.status(200).json({ message: "https://www.youtube.com/watch?v=d-diB65scQU" });
